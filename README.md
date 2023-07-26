@@ -17,17 +17,3 @@ $ deactivate
 ```bash
 $ pip install -r requirements.txt
 ```
-
-### Change log
-
-- Created users in auth0 (with roles)
-- Installed auth0-python (added to requirements)
-- Simple auth0 code to get users
-- Decided that I create one simple way (just csv with users) and more advanced with OIDC (it is not for trial)
-
-### Database gooddata-and-provisioning
-
-- Load users from CSV or Database.
-- Create groups in GD according to customers groups - it can be just admins and users
-- Create permissions for these groups
-- Create users in GD based on users from CSV or Database
