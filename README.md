@@ -1,4 +1,6 @@
-# gooddata-and-provisioning
+# GoodData Users Provisioning
+
+The example repository of users provisioning. Users are maintained in Auth0, and provisioned to GoodData. You can find the details in the script [gooddata_oidc_provisioning.py](./gooddata_oidc_provisioning.py).
 
 ### Setup Virtual Environment
 
@@ -16,4 +18,15 @@ $ deactivate
 
 ```bash
 $ pip install -r requirements.txt
+```
+
+### Setup Environment Variables
+
+```bash
+export AUTH0_DOMAIN=''
+export AUTH0_CLIENT_ID=''
+export AUTH0_SECRET=''
+export GOODDATA_HOST=''
+export GOODDATA_TOKEN=''
+export GOODDATA_WORKSPACE_ID=''
 ```

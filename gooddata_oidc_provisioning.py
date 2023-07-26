@@ -1,4 +1,7 @@
 import os
+import schedule
+import time
+
 from auth0.authentication import GetToken
 from auth0.management import Auth0
 from gooddata_sdk import GoodDataSdk, CatalogUserGroup, CatalogDeclarativeWorkspacePermissions, CatalogUser
@@ -36,6 +39,7 @@ def create_user_groups():
 
 
 def create_permissions():
+    declarative_permissions = gooddata_sdk.catalog_permission.get_declarative_permissions(gooddata_workspace_id)
     admin_group_permissions = {
         "name": "MANAGE",
         "assignee": {
@@ -50,11 +54,9 @@ def create_permissions():
             "type": "userGroup"
         }
     }
-    permissions_for_admins = CatalogDeclarativeWorkspacePermissions.from_dict(admin_group_permissions)
-    permissions_for_users = CatalogDeclarativeWorkspacePermissions.from_dict(user_group_permissions)
 
-    gooddata_sdk.catalog_permission.put_declarative_permissions(gooddata_workspace_id, permissions_for_admins)
-    gooddata_sdk.catalog_permission.put_declarative_permissions(gooddata_workspace_id, permissions_for_users)
+    declarative_permissions.permissions = [admin_group_permissions, user_group_permissions]
+    gooddata_sdk.catalog_permission.put_declarative_permissions(gooddata_workspace_id, declarative_permissions)
 
 
 def create_or_update_user(user_id: str, authentication_id: str, user_group_ids: List[str]):
@@ -85,6 +87,16 @@ def provision_users():
             create_or_update_user(user_id, auth_id, ["userGroup"])
 
 
-create_user_groups()
-create_permissions()
-provision_users()
+def run_provisioning():
+    print("Checking new users...")
+    create_user_groups()
+    create_permissions()
+    provision_users()
+    print("Done")
+
+
+schedule.every(30).seconds.do(run_provisioning)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
