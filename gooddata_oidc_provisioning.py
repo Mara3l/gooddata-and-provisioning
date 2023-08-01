@@ -4,7 +4,7 @@ import time
 
 from auth0.authentication import GetToken
 from auth0.management import Auth0
-from gooddata_sdk import GoodDataSdk, CatalogUserGroup, CatalogDeclarativeWorkspacePermissions, CatalogUser
+from gooddata_sdk import GoodDataSdk, CatalogUserGroup, CatalogUser
 from typing import List
 
 auth0_domain = os.getenv("AUTH0_DOMAIN")
